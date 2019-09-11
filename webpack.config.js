@@ -8,6 +8,7 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 
 module.exports = {
   mode: 'development',
+  //mode: 'production',
   watch: true,
   externals: [{ //Add Jquery, Drupal, DrupalSettings here
     /*
@@ -24,7 +25,7 @@ module.exports = {
     filename: '[name].bundle.js', //Final Build file
     path: path.resolve(__dirname, 'dist') //The root Dir Webpack Build
   },
-  resolve: {
+  resolve: { //Resolve paths for import statements
     alias: {
       //'@scss': path.resolve(__dirname, 'assets/style')
       //'@components': path.resolve(__dirname, '../src/components'),
@@ -35,7 +36,7 @@ module.exports = {
       '@LODASH': path.resolve(__dirname, 'node_modules/lodash'),
       '@SCSS': path.resolve(__dirname,'assets/styles'), //Looks for all scss files in this directory
     },
-    extensions: ['.js','.scss','.css'] //extensions to resolve
+    extensions: ['.js','.scss','.css'] //extensions to resolve within the import statements
   },
   plugins: [ //PLUGINS
     new MiniCSSExtractPlugin({
@@ -84,9 +85,14 @@ module.exports = {
       include: [
         path.resolve(__dirname, "assets/styles") //Directory for sass files
       ],
+      exclude: /(node_modules|bower_components)/,
       use: [{
           loader: MiniCSSExtractPlugin.loader
-        },{
+        },
+        {
+          //loader: 'style-loader' //The style loader takes CSS and actually inserts it into the page so that the styles are active on the page.
+        },
+        {
           loader: 'css-loader', // translates CSS into CommonJS modules
         },
         {
@@ -103,7 +109,12 @@ module.exports = {
           loader: 'sass-loader' // compiles Sass to CSS
         }
       ]
-    }],
+    }/*,
+    {
+      test: /\.(png|svg|jpg|gif)$/,
+      use: ["file-loader"]
+    }*/
+  ],
   },/* Dev Server Config
   devServer: {
     // The local filesystem directory where static html files
