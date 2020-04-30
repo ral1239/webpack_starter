@@ -36,7 +36,7 @@
     "webpack-shell-plugin": "^0.5.0"
   },
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "lodash-es": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"
